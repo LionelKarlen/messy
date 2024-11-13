@@ -1,4 +1,5 @@
 <script lang="ts">
+	import pb from '$lib/services/pb';
 	import { invoke } from '@tauri-apps/api/core';
 
 	let name = $state('');
@@ -32,6 +33,7 @@
 		<button type="submit">Greet</button>
 	</form>
 	<p>{greetMsg}</p>
+	<button class="btn btn-primary" onclick={() => pb.authStore.clear()}>logout</button>
 </main>
 
 <style>
