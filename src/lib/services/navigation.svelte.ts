@@ -12,7 +12,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 		},
 		{
 			name: 'Scan',
-			href: 'scan',
+			href: '/scan',
 			icon: '',
 			platform: 'tauri',
 			isPriviledged: true,
@@ -20,7 +20,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 		},
 		{
 			name: 'Locations',
-			href: 'locations',
+			href: '/locations',
 			icon: '',
 			platform: 'both',
 			isPriviledged: true,
@@ -28,7 +28,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 		},
 		{
 			name: 'Categories',
-			href: 'categories',
+			href: '/categories',
 			icon: '',
 			platform: 'both',
 			isPriviledged: true,
@@ -36,7 +36,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 		},
 		{
 			name: 'Log out',
-			href: 'logout',
+			href: '/logout',
 			icon: '',
 			platform: 'both',
 			isPriviledged: true,
@@ -45,7 +45,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 		},
 		{
 			name: 'About',
-			href: 'about',
+			href: '/about',
 			icon: '',
 			platform: 'web',
 			isPriviledged: false,
