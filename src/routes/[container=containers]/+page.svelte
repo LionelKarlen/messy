@@ -5,11 +5,11 @@
 </script>
 
 <div class="flex flex-row w-full justify-between">
-	<h1 class="text-2xl content-center">{data.name}</h1>
+	<h1 class="text-2xl content-center">{data.collection}</h1>
 	<a
 		class="btn btn-square btn-ghost"
-		href={`/${data.name}/create`}
-		aria-label={`Create new ${data.name}`}
+		href={`/${data.collection}/create`}
+		aria-label={`Create new ${data.collection}`}
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -36,12 +36,14 @@
 			{#each data.containers as container}
 				<tr>
 					<td
-						><a href={`/${data.name}/${container.id}`} class="w-full block">{container.name}</a></td
+						><a href={`/${data.collection}/${container.id}`} class="w-full block"
+							>{container.name}</a
+						></td
 					>
 					<td class="justify-end flex"
 						><a
 							class="btn btn-square btn-ghost"
-							href={`/${data.name}/${container.id}/edit`}
+							href={`/${data.collection}/${container.id}/edit`}
 							aria-label={`Edit ${container.name}`}
 						>
 							<svg

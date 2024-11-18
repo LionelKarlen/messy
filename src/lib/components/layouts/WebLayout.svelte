@@ -9,7 +9,7 @@
 <div class="navbar bg-base-100 absolute">
 	<div class="flex-1">
 		<a class="btn btn-ghost text-xl" href="/"
-			><img src="messy_tmp_icon.svg" alt="messy logo" height="25px" width="25px" /> messy</a
+			><img src="/messy_tmp_icon.svg" alt="messy logo" height="25px" width="25px" /> messy</a
 		>
 	</div>
 	<div class="flex-none">

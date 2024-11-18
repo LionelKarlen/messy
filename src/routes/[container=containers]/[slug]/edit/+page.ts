@@ -3,9 +3,9 @@ import type Container from '$lib/types/Container';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
-	const containers: Container[] = await pb.collection(params.container).getFullList();
+	const container: Container = await pb.collection(params.container).getOne(params.slug);
 	return {
-		collection: params.container,
-		containers: containers
+		container: container,
+		collection: params.container
 	};
 };
