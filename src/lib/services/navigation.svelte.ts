@@ -3,16 +3,16 @@ import type NavigationItem from '$lib/types/NavigationItem';
 export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): NavigationItem[] {
 	const commonItems: NavigationItem[] = [
 		{
-			name: 'Home',
-			href: '/',
+			name: 'Scan',
+			href: '/scan',
 			icon: '',
 			platform: 'tauri',
 			isPriviledged: true,
 			isCore: true
 		},
 		{
-			name: 'Scan',
-			href: '/scan',
+			name: 'Home',
+			href: '/',
 			icon: '',
 			platform: 'tauri',
 			isPriviledged: true,
@@ -35,6 +35,14 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 			isCore: true
 		},
 		{
+			name: 'Designations',
+			href: '/designations',
+			icon: '',
+			platform: 'both',
+			isPriviledged: true,
+			isCore: false
+		},
+		{
 			name: 'Log out',
 			href: '/logout',
 			icon: '',
@@ -49,7 +57,7 @@ export function getNavigationItems(isLoggedIn: boolean, isWeb: boolean = true): 
 			icon: '',
 			platform: 'web',
 			isPriviledged: false,
-			isCore: true
+			isCore: false
 		}
 	];
 	let platformIcons: NavigationItem[] = [];
