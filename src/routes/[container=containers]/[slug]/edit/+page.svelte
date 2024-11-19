@@ -1,8 +1,18 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import ContainerForm from '$lib/components/container/ContainerForm.svelte';
+	import pb from '$lib/services/pb';
 	import type PageData from './types';
 
 	let { data }: { data: PageData } = $props();
+
+	let modal: HTMLDialogElement;
+
+	async function handleDelete() {
+		await pb.collection(data.collection).delete(data.container.id);
+		goto(`/${data.collection}`);
+		// TODO: Error handling and feedback toast
+	}
 </script>
 
 <div class="flex flex-row justify-between">
@@ -10,7 +20,11 @@
 		Edit {data.container.name}
 	</h1>
 	<div class="flex flex-row">
-		<button class="btn btn-square btn-ghost" aria-label={`Delete ${data.container.name}`}
+		<!-- eslint-disable-next-line no-undef -->
+		<button
+			class="btn btn-square btn-ghost"
+			onclick={() => modal.showModal()}
+			aria-label={`Delete ${data.container.name}`}
 			><svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
@@ -31,3 +45,19 @@
 
 <div class="divider"></div>
 <ContainerForm container={data.container} collection={data.collection} isEdit={true} />
+
+<dialog id="del_modal" bind:this={modal} class="modal">
+	<div class="modal-box">
+		<h3 class="text-lg font-bold text-error">Delete {data.container.name}?</h3>
+		<p class="py-4">
+			Are you sure you want to delete {data.container.name}? This cannot be undone.
+		</p>
+		<div class="flex flex-row justify-end gap-2">
+			<button class="btn btn-ghost" onclick={() => modal.close()}>Cancel</button>
+			<button class="btn btn-error" onclick={handleDelete}>Delete</button>
+		</div>
+	</div>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
+</dialog>
