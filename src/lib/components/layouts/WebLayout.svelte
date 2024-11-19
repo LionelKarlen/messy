@@ -6,27 +6,11 @@
 	let { children } = $props();
 </script>
 
-<div class="navbar bg-base-100 absolute">
-	<div class="flex-1">
-		<a class="btn btn-ghost text-xl" href="/"
-			><img src="/messy_tmp_icon.svg" alt="messy logo" height="25px" width="25px" /> messy</a
-		>
-	</div>
-	<div class="flex-none">
-		<ul class="menu menu-horizontal px-1">
-			{#each getNavigationItems(currentUser.model != null) as item}
-				<li>
-					<a href={item.href} data-sveltekit-preload-data={item.preload ?? 'hover'}>{item.name}</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
-</div>
 <div class="drawer absolute">
 	<input id="nav-drawer" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content flex flex-col">
+	<div class="drawer-content bg-base-100 flex flex-col">
 		<!-- Navbar -->
-		<div class="navbar bg-base-100 absolute w-full">
+		<div class="navbar absolute w-full">
 			<div class="flex-1">
 				<a class="btn btn-ghost text-xl" href="/"
 					><img src="messy_tmp_icon.svg" alt="messy logo" height="25px" width="25px" /> messy</a
