@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getNavigationItems } from '$lib/services/navigation.svelte';
-	import { currentUser, isLogin } from '$lib/services/auth.svelte';
+	import { isLogin } from '$lib/services/auth.svelte';
 	import SpacingContainer from '$lib/components/layouts/SpacingContainer.svelte';
 	import Login from '$lib/components/Login.svelte';
 	let { children } = $props();
@@ -39,7 +39,7 @@
 			<!-- Desktop nav items -->
 			<div class="hidden flex-none lg:block">
 				<ul class="menu menu-horizontal px-1">
-					{#each getNavigationItems(currentUser.model != null) as item}
+					{#each getNavigationItems(isLogin()) as item}
 						<li>
 							<a href={item.href} data-sveltekit-preload-data={item.preload ?? 'hover'}
 								>{item.name}</a
@@ -60,7 +60,7 @@
 	<div class="drawer-side">
 		<label for="nav-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<ul class="menu bg-base-200 min-h-full w-80 p-4">
-			{#each getNavigationItems(currentUser.model != null) as item}
+			{#each getNavigationItems(isLogin()) as item}
 				<li>
 					<a href={item.href} data-sveltekit-preload-data={item.preload ?? 'hover'}>{item.name}</a>
 				</li>
