@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { isLogin } from '$lib/services/auth.svelte';
 	import { getCoreNavigationItems, getExtraNavigationItems } from '$lib/services/navigation.svelte';
 	import Login from '../Login.svelte';
@@ -37,7 +38,12 @@
 			</SpacingContainer>
 			<div class="btm-nav bg-base-200">
 				{#each getCoreNavigationItems(isLogin()) as item}
-					<a href={item.href} aria-label={item.name}>
+					<a
+						href={item.href}
+						aria-label={item.name}
+						class:active={($page.url.pathname.startsWith(item.href) && item.href.length > 1) ||
+							$page.url.pathname.length == item.href.length}
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="h-5 w-5"
