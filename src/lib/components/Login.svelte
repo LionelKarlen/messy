@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { currentUser } from '$lib/services/auth.svelte';
 	import pb from '$lib/services/pb';
 	let username = $state('');
@@ -7,6 +8,7 @@
 	async function handleSubmit() {
 		await pb.collection('users').authWithPassword(username, password);
 		currentUser.model = pb.authStore.model;
+		invalidateAll();
 	}
 </script>
 
