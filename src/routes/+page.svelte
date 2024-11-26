@@ -1,155 +1,75 @@
 <script lang="ts">
-	import { invoke } from '@tauri-apps/api/core';
+	import type { PageData } from './$types';
+	import RenderCategories from '$lib/components/stuff/RenderCategories.svelte';
+	import { Status } from '$lib/types/Status';
+	import pb from '$lib/services/pb';
 
-	let name = $state('');
-	let greetMsg = $state('');
-
-	async function greet(event: Event) {
-		event.preventDefault();
-		// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-		greetMsg = await invoke('greet', { name });
-	}
+	let { data }: { data: PageData } = $props();
 </script>
 
-<main class="container">
-	<h1>Welcome to Tauri + Svelte</h1>
-
-	<div class="row">
-		<a href="https://vitejs.dev" target="_blank">
-			<img src="/vite.svg" class="logo vite" alt="Vite Logo" />
-		</a>
-		<a href="https://tauri.app" target="_blank">
-			<img src="/tauri.svg" class="logo tauri" alt="Tauri Logo" />
-		</a>
-		<a href="https://kit.svelte.dev" target="_blank">
-			<img src="/svelte.svg" class="logo svelte-kit" alt="SvelteKit Logo" />
-		</a>
-	</div>
-	<p>Click on the Tauri, Vite, and SvelteKit logos to learn more.</p>
-
-	<form class="row" onsubmit={greet}>
-		<input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-		<button type="submit">Greet</button>
-	</form>
-	<p>{greetMsg}</p>
-	<a href="/logout" class="btn btn-primary" data-sveltekit-preload-data="off">logout</a>
-</main>
-
-<style>
-	.logo.vite:hover {
-		filter: drop-shadow(0 0 2em #747bff);
-	}
-
-	.logo.svelte-kit:hover {
-		filter: drop-shadow(0 0 2em #ff3e00);
-	}
-
-	:root {
-		font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-		font-size: 16px;
-		line-height: 24px;
-		font-weight: 400;
-
-		color: #0f0f0f;
-		background-color: #f6f6f6;
-
-		font-synthesis: none;
-		text-rendering: optimizeLegibility;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		-webkit-text-size-adjust: 100%;
-	}
-
-	.container {
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		text-align: center;
-	}
-
-	.logo {
-		height: 6em;
-		padding: 1.5em;
-		will-change: filter;
-		transition: 0.75s;
-	}
-
-	.logo.tauri:hover {
-		filter: drop-shadow(0 0 2em #24c8db);
-	}
-
-	.row {
-		display: flex;
-		justify-content: center;
-	}
-
-	a {
-		font-weight: 500;
-		color: #646cff;
-		text-decoration: inherit;
-	}
-
-	a:hover {
-		color: #535bf2;
-	}
-
-	h1 {
-		text-align: center;
-	}
-
-	input,
-	button {
-		border-radius: 8px;
-		border: 1px solid transparent;
-		padding: 0.6em 1.2em;
-		font-size: 1em;
-		font-weight: 500;
-		font-family: inherit;
-		color: #0f0f0f;
-		background-color: #ffffff;
-		transition: border-color 0.25s;
-		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-	}
-
-	button {
-		cursor: pointer;
-	}
-
-	button:hover {
-		border-color: #396cd8;
-	}
-	button:active {
-		border-color: #396cd8;
-		background-color: #e8e8e8;
-	}
-
-	input,
-	button {
-		outline: none;
-	}
-
-	#greet-input {
-		margin-right: 5px;
-	}
-
-	@media (prefers-color-scheme: dark) {
-		:root {
-			color: #f6f6f6;
-			background-color: #2f2f2f;
-		}
-
-		a:hover {
-			color: #24c8db;
-		}
-
-		input,
-		button {
-			color: #ffffff;
-			background-color: #0f0f0f98;
-		}
-		button:active {
-			background-color: #0f0f0f69;
-		}
-	}
-</style>
+<div class="overflow-x-auto">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Categories</th>
+				<th>Location</th>
+				<th>Designation</th>
+				<th class="flex justify-end">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each data.stuff as item}
+				<tr
+					class="hover border-l"
+					class:border-l-error={item.status == Status.INCOMPLETE}
+					class:border-l-success={item.status == Status.DONE}
+					class:border-l-warning={item.status == Status.TRANSIT}
+				>
+					<th><a href={`/stuff/${item.id}`}>{item.name}</a></th>
+					<td>
+						{#if item.image}
+							<img
+								src={pb.buildUrl(`api/files/stuff/${item.id}/${item.image}?thumb=50x50`)}
+								alt={`Image of ${item.name}`}
+								height="50px"
+								width="50px"
+							/>
+						{/if}
+					</td>
+					<td class="overflow-x-scroll flex gap-2 max-w-sm"
+						><RenderCategories categories={item.categories} /></td
+					>
+					<td><a href={`/locations/${item.location.id ?? ''}`}>{item.location.name ?? ''}</a></td>
+					<td
+						><a href={`/locations/${item.designation.id ?? ''}`}>{item.designation.name ?? ''}</a
+						></td
+					>
+					<td class="justify-end flex"
+						><a
+							class="btn btn-square btn-ghost"
+							href={`/stuff/${item.id}/edit`}
+							aria-label={`Edit ${item.name}`}
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="size-5"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+								/>
+							</svg>
+						</a></td
+					>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</div>

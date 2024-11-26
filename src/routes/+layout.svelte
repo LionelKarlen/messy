@@ -6,7 +6,7 @@
 	let { children } = $props();
 </script>
 
-{#if !isWeb}
+{#if isWeb}
 	<WebLayout>
 		{@render children()}
 	</WebLayout>
